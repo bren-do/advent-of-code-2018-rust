@@ -8,27 +8,24 @@ fn reactable(a: u8, b: u8) -> bool {
     }
 }
 
-fn react(letters: &mut Vec<u8>) -> (bool, &mut Vec<u8>) {
+fn react(letters: &mut Vec<u8>) -> bool {
     let length = letters.len();
     for (i, &item) in letters.iter().enumerate() {
         if i + 1 < length && reactable(item, letters[i + 1]) {
             letters.remove(i);
             letters.remove(i);
-            return (true, letters);
+            return true;
         }
     }
-    (false, letters)
+    false
 }
 
 fn reaction_size(letters: &mut Vec<u8>) -> usize {
-    let mut output_bytes = letters;
     let mut reacted = true;
     while reacted {
-        let (r, o) = react(output_bytes);
-        output_bytes = o;
-        reacted = r;
+        reacted = react(letters);
     }
-    output_bytes.to_vec().len()
+    letters.to_vec().len()
 }
 
 fn reaction_for_letter(input: &str, reacting_letter: u8) -> usize {
