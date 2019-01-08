@@ -32,8 +32,8 @@ fn reaction_for_letter(input: &str, reacting_letter: u8) -> usize {
     let mut output_bytes = input
         .trim()
         .as_bytes()
-        .iter()
-        .map(|&x| x) //y tho? why do we need to deref these?
+        .to_vec()
+        .into_iter()
         .filter(|&x| reacting_letter != x && reacting_letter + 32 != x)
         .collect::<Vec<u8>>();
     reaction_size(&mut output_bytes)
@@ -43,6 +43,7 @@ fn min_reaction_length(input: &str) -> usize {
     let reacting_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     reacting_letters
         .as_bytes()
+        .to_vec()
         .iter()
         .map(|&letter| reaction_for_letter(input, letter))
         .min()
